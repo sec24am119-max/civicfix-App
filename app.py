@@ -3,6 +3,8 @@ import sqlite3
 import pandas as pd
 from PIL import Image
 import datetime
+from pothole_model import predict_pothole
+from waterpipe_model import predict_waterpipe
 
 # -----------------------------
 # DATABASE SETUP
@@ -179,3 +181,4 @@ elif choice == "City Map":
 
     else:
         st.write("No issues reported yet.")
+
