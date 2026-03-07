@@ -3,8 +3,6 @@ import sqlite3
 import pandas as pd
 from PIL import Image
 import datetime
-import tensorflow as tf
-
 # -----------------------------
 # DATABASE SETUP
 # -----------------------------
@@ -26,28 +24,7 @@ user TEXT
 """)
 
 conn.commit()
-# -----------------------------
-# LOAD AI MODELS
-# -----------------------------
 
-pothole_model = tf.keras.models.load_model("pothole_model.keras")
-water_model = tf.keras.models.load_model("water_model.keras")
-
-def predict_pothole(img):
- img = img.resize((224,224))
- img_array = np.array(img)
- img_array = np.expand_dims(img_array, axis=0)
- img_array = img_array / 255.0
- prediction = pothole_model.predict(img_array)
- return prediction.argmax()
-
-def predict_water(img):
- img = img.resize((224,224))
- img_array = np.array(img)
- img_array = np.expand_dims(img_array, axis=0)
- img_array = img_array / 255.0
- prediction = water_model.predict(img_array)
- return prediction.argmax()
 # -----------------------------
 # SEVERITY LOGIC
 # -----------------------------
@@ -90,29 +67,6 @@ if choice == "Report Issue":
     location = st.text_input("Location")
 
     image = st.file_uploader("Upload Issue Photo")
-    if image is not None:
-
-      img = Image.open(image)
-
-      st.image(img, caption="Uploaded Image")
-
-      if issue_type == "Pothole":
-
-           result = predict_pothole(img)
-
-           if result == 0:
-               st.success("AI Detection: Pothole Detected 🕳")
-           else:
-               st.info("AI Detection: No pothole detected")
-
-      elif issue_type == "Water Leakage":
-
-             result = predict_water(img)
-
-             if result == 0:
-                 st.success("AI Detection: Water Leakage Detected 💧")
-             else:
-                 st.info("AI Detection: No water leakage detected")
 
     if st.button("Submit Report"):
 
@@ -224,8 +178,3 @@ elif choice == "City Map":
 
     else:
         st.write("No issues reported yet.")
-
-
-
-
-
