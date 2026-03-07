@@ -111,7 +111,7 @@ if choice == "Report Issue":
 
              if result == 0:
                  st.success("AI Detection: Water Leakage Detected 💧")
-              else:
+             else:
                  st.info("AI Detection: No water leakage detected")
 
     if st.button("Submit Report"):
@@ -224,6 +224,7 @@ elif choice == "City Map":
 
     else:
         st.write("No issues reported yet.")
+
 
 
 
